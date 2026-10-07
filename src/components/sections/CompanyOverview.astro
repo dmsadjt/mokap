@@ -1,0 +1,45 @@
+---
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section class="overview">
+	<div class="container overview-grid">
+		<div class="overview-text">
+			<span class="label">{t('overview.label')}</span>
+			<h2>{t('overview.heading')}</h2>
+			<p>{t('overview.body')}</p>
+			<a href={localizePath('/about', lang)} class="btn">{t('common.readMore')}</a>
+		</div>
+		<div class="overview-image">
+			<img src="/placeholder.svg" alt="Our team at work" loading="lazy" />
+		</div>
+	</div>
+</section>
+
+<style>
+	.overview-grid {
+		display: grid;
+		grid-template-columns: 1.1fr 1fr;
+		gap: 48px;
+		align-items: center;
+	}
+
+	.overview-image img {
+		border-radius: 4px;
+		width: 100%;
+		height: auto;
+	}
+
+	@media (max-width: 800px) {
+		.overview-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.overview-image {
+			order: -1;
+		}
+	}
+</style>

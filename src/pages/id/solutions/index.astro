@@ -1,0 +1,123 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import { solutionsIntro } from '../../../data/solutions';
+import { getSolutions } from '../../../lib/content';
+const solutions = getSolutions();
+import { getLangFromUrl, useTranslations, localizePath } from '../../../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title={t('solutions.title')}>
+	<PageHeader title={t('solutions.title')} subtitle={solutionsIntro.intro} />
+
+	<section>
+		<div class="container solutions-grid">
+			{
+				solutions.map((solution) => (
+					<a class="solution-card" href={localizePath(`/solutions/${solution.slug}`, lang)}>
+						<h3>{solution.name}</h3>
+						<p>{solution.summary}</p>
+						<span class="link">{t('common.learnMore')}</span>
+					</a>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="products-section">
+		<div class="container products-grid">
+			<div>
+				<h2>{t('solutions.products.heading')}</h2>
+				<ul class="products-list">
+					{solutionsIntro.products.map((product) => <li>{product}</li>)}
+				</ul>
+			</div>
+			<div>
+				<h2>{t('solutions.whyChooseUs.heading')}</h2>
+				<ul class="value-props">
+					{solutionsIntro.valueProps.map((value) => <li>{value}</li>)}
+				</ul>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.solutions-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 24px;
+	}
+
+	.solution-card {
+		display: block;
+		background: var(--color-bg-alt);
+		border-radius: 4px;
+		padding: 28px;
+		text-decoration: none;
+		color: var(--color-text);
+		transition: box-shadow 0.2s ease;
+	}
+
+	.solution-card:hover {
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+	}
+
+	.solution-card h3 {
+		color: var(--color-navy);
+	}
+
+	.solution-card .link {
+		color: var(--color-red);
+		font-weight: 700;
+		font-size: 0.9rem;
+	}
+
+	.products-section {
+		background: var(--color-bg-alt);
+	}
+
+	.products-grid {
+		display: grid;
+		grid-template-columns: 1.3fr 1fr;
+		gap: 48px;
+	}
+
+	.products-list,
+	.value-props {
+		margin: 0;
+		padding-left: 20px;
+		display: grid;
+		gap: 10px;
+	}
+
+	.value-props {
+		padding-left: 0;
+		list-style: none;
+	}
+
+	.value-props li {
+		font-weight: 700;
+		color: var(--color-navy);
+	}
+
+	.value-props li::before {
+		content: '';
+		display: inline-block;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-red);
+		margin-right: 10px;
+	}
+
+	@media (max-width: 700px) {
+		.solutions-grid,
+		.products-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

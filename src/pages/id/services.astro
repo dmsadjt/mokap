@@ -1,0 +1,103 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { companyBrochure } from '../../data/services';
+import { getServices } from '../../lib/content';
+const services = getServices();
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title={t('services.title')}>
+	<PageHeader title={t('services.title')} subtitle={t('services.subtitle')} />
+
+	<section>
+		<div class="container services-grid">
+			{
+				services.map((service) => (
+					<a class="service-card" href={localizePath(`/services/${service.slug}`, lang)}>
+						<span class="bullet" aria-hidden="true" />
+						<h3>{service.name}</h3>
+						<p>{service.summary}</p>
+						<span class="link">{t('common.learnMore')}</span>
+					</a>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="brochure-cta">
+		<div class="container cta-inner">
+			<h2>{t('services.wantDetails')}</h2>
+			<a class="btn" href={companyBrochure} target="_blank" rel="noopener">
+				{t('common.downloadBrochure')}
+			</a>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.services-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 24px;
+	}
+
+	.service-card {
+		display: block;
+		background: var(--color-bg-alt);
+		border-radius: 4px;
+		padding: 28px;
+		text-decoration: none;
+		color: var(--color-text);
+		transition: box-shadow 0.2s ease;
+	}
+
+	.service-card:hover {
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+	}
+
+	.bullet {
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--color-red);
+		margin-bottom: 12px;
+	}
+
+	.service-card h3 {
+		color: var(--color-navy);
+	}
+
+	.service-card .link {
+		color: var(--color-red);
+		font-weight: 700;
+		font-size: 0.9rem;
+	}
+
+	.brochure-cta {
+		background: var(--color-bg-alt);
+	}
+
+	.cta-inner {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 24px;
+		flex-wrap: wrap;
+	}
+
+	.cta-inner h2 {
+		margin: 0;
+		font-size: 1.6rem;
+	}
+
+	@media (max-width: 700px) {
+		.services-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

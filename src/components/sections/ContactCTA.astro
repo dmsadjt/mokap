@@ -1,0 +1,33 @@
+---
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section class="contact-cta">
+	<div class="container cta-inner">
+		<h2>{t('contactCta.text')}</h2>
+		<a href={localizePath('/contact', lang)} class="btn">{t('common.readMore')}</a>
+	</div>
+</section>
+
+<style>
+	.contact-cta {
+		background: var(--color-bg-alt);
+	}
+
+	.cta-inner {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 24px;
+		flex-wrap: wrap;
+	}
+
+	.cta-inner h2 {
+		font-size: 1.6rem;
+		max-width: 640px;
+		margin: 0;
+	}
+</style>

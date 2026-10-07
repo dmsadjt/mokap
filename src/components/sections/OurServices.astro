@@ -1,0 +1,86 @@
+---
+import { companyBrochure } from '../../data/services';
+import { getLangFromUrl, useTranslations } from '../../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const serviceItems = [
+	t('ourServices.list.engineering'),
+	t('ourServices.list.studyToRevamp'),
+	t('ourServices.list.cleaning'),
+	t('ourServices.list.performance'),
+	t('ourServices.list.maintenance'),
+	t('ourServices.list.flameScanner'),
+];
+---
+
+<section class="our-services">
+	<div class="container services-grid">
+		<div>
+			<span class="label">{t('ourServices.label')}</span>
+			<h2>{t('ourServices.heading')}</h2>
+			<p>{t('ourServices.body')}</p>
+			<a href={companyBrochure} target="_blank" rel="noopener" class="btn">
+				{t('common.downloadBrochure')}
+			</a>
+		</div>
+		<ul class="services-list">
+			{
+				serviceItems.map((item) => (
+					<li>
+						<span class="bullet" aria-hidden="true" />
+						{item}
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.our-services {
+		background: var(--color-navy);
+		color: #fff;
+	}
+
+	.our-services .label {
+		color: #ff5757;
+	}
+
+	.services-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 48px;
+		align-items: center;
+	}
+
+	.services-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 18px;
+	}
+
+	.services-list li {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		font-weight: 600;
+	}
+
+	.bullet {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--color-red);
+		flex-shrink: 0;
+	}
+
+	@media (max-width: 800px) {
+		.services-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

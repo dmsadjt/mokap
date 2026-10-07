@@ -1,0 +1,43 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { kinds } from '../../../lib/schema';
+import { listItems, deleteItem, type Kind } from '../../../lib/db';
+
+const cfg = kinds[Astro.params.kind as Kind];
+if (!cfg) return new Response(null, { status: 404 });
+
+if (Astro.request.method === 'POST') {
+	const f = await Astro.request.formData();
+	if (f.get('action') === 'delete') deleteItem(cfg.kind, Number(f.get('id')));
+	return Astro.redirect(`/admin/${cfg.kind}?deleted=1`);
+}
+const q = (Astro.url.searchParams.get('q') ?? '').toLowerCase();
+const all = listItems<any>(cfg.kind);
+const rows = (q ? all.filter((r) => JSON.stringify(r).toLowerCase().includes(q)) : all).reverse();
+const label = (c: string) => cfg.fields.find((f) => f.name === c)?.label ?? c;
+---
+<AdminLayout title={cfg.label} active={cfg.kind}>
+	{Astro.url.searchParams.get('deleted') && <p class="ok">Deleted.</p>}
+	{Astro.url.searchParams.get('saved') && <p class="ok">Saved.</p>}
+	<div class="bar">
+		<a class="btn" href={`/admin/${cfg.kind}/new`}>+ New {cfg.singular}</a>
+		<form method="get"><input type="search" name="q" value={q} placeholder={`Search ${cfg.label.toLowerCase()}…`} /></form>
+		<small>{rows.length} of {all.length}</small>
+	</div>
+	<table>
+		<thead><tr>{cfg.columns.map((c) => <th>{label(c)}</th>)}<th></th></tr></thead>
+		<tbody>
+			{rows.map((r) => (
+				<tr>
+					{cfg.columns.map((c, i) => <td class="clip">{i === 0 ? <a href={`/admin/${cfg.kind}/${r._id}`}>{r[c] || '(empty)'}</a> : r[c]}</td>)}
+					<td style="white-space:nowrap">
+						<a class="btn sec" href={`/admin/${cfg.kind}/${r._id}`}>Edit</a>
+						<form method="post" style="display:inline" onsubmit="return confirm('Delete this record?')">
+							<input type="hidden" name="id" value={r._id} /><button class="btn danger" name="action" value="delete">Delete</button>
+						</form>
+					</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+</AdminLayout>

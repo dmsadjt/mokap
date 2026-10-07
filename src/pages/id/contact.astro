@@ -1,0 +1,158 @@
+---
+import { site } from '../../config/site';
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title={t('contact.title')}>
+	<PageHeader title={t('contact.title')} subtitle={t('contact.subtitle')} />
+
+	<section>
+		<div class="container contact-grid">
+			<div class="contact-info">
+				<h3>{t('contact.getInTouch')}</h3>
+				<ul>
+					<li>
+						<strong>{t('contact.address')}:</strong> {site.address}
+					</li>
+					<li><strong>{t('contact.phone')}:</strong> {site.phone}</li>
+					<li><strong>{t('contact.email')}:</strong> {site.email}</li>
+					<li><strong>{t('contact.officeHours')}:</strong> {t('topbar.hours')}</li>
+				</ul>
+			</div>
+			<form class="contact-form" id="contact-form">
+				<input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY" />
+				<input type="hidden" name="subject" value="New website inquiry" />
+				<input type="checkbox" name="botcheck" style="display: none" tabindex="-1" autocomplete="off" />
+
+				<label>
+					{t('contact.form.name')}
+					<input type="text" name="name" required />
+				</label>
+				<label>
+					{t('contact.form.email')}
+					<input type="email" name="email" required />
+				</label>
+				<label>
+					{t('contact.form.message')}
+					<textarea name="message" rows="5" required></textarea>
+				</label>
+				<button type="submit" class="btn">{t('contact.form.send')}</button>
+				<p class="form-status" data-sending={t('contact.form.sending')} data-success={t('contact.form.success')} data-error={t('contact.form.error')}></p>
+			</form>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	const form = document.getElementById('contact-form') as HTMLFormElement | null;
+	const status = form?.querySelector<HTMLParagraphElement>('.form-status');
+
+	form?.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		if (!status) return;
+
+		const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+		submitButton?.setAttribute('disabled', 'true');
+		status.textContent = status.dataset.sending ?? '';
+		status.className = 'form-status is-sending';
+
+		try {
+			const response = await fetch('/api/contact', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+				body: JSON.stringify(Object.fromEntries(new FormData(form))),
+			});
+			const result = await response.json();
+
+			if (response.ok && result.success) {
+				status.textContent = status.dataset.success ?? '';
+				status.className = 'form-status is-success';
+				form.reset();
+			} else {
+				throw new Error(result.message ?? 'Submission failed');
+			}
+		} catch {
+			status.textContent = status.dataset.error ?? '';
+			status.className = 'form-status is-error';
+		} finally {
+			submitButton?.removeAttribute('disabled');
+		}
+	});
+</script>
+
+<style>
+	.contact-grid {
+		display: grid;
+		grid-template-columns: 1fr 1.3fr;
+		gap: 48px;
+	}
+
+	.contact-info ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 16px;
+	}
+
+	.contact-form {
+		display: grid;
+		gap: 16px;
+	}
+
+	.contact-form label {
+		display: grid;
+		gap: 6px;
+		font-weight: 600;
+		font-size: 0.9rem;
+	}
+
+	.contact-form input,
+	.contact-form textarea {
+		font-family: inherit;
+		font-size: 1rem;
+		padding: 10px 12px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+	}
+
+	.contact-form button {
+		justify-self: start;
+	}
+
+	.contact-form button[disabled] {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	.form-status {
+		margin: 0;
+		font-size: 0.9rem;
+		font-weight: 600;
+		min-height: 1.2em;
+	}
+
+	.form-status.is-sending {
+		color: var(--color-text);
+		opacity: 0.7;
+	}
+
+	.form-status.is-success {
+		color: #1a7a3c;
+	}
+
+	.form-status.is-error {
+		color: var(--color-red);
+	}
+
+	@media (max-width: 800px) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

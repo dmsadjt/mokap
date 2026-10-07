@@ -1,0 +1,27 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { kinds } from '../../lib/schema';
+import { db } from '../../lib/db';
+const count = (k: string) => (db.prepare('SELECT COUNT(*) c FROM items WHERE kind=?').get(k) as { c: number }).c;
+const msgs = db.prepare('SELECT id,name,email,message,is_read,created_at FROM messages ORDER BY id DESC LIMIT 5').all() as any[];
+const unread = (db.prepare('SELECT COUNT(*) c FROM messages WHERE is_read=0').get() as { c: number }).c;
+---
+<AdminLayout title="Dashboard" active="dash">
+	<div class="stats">
+		{Object.values(kinds).map((k) => <a class="stat" href={`/admin/${k.kind}`}><b>{count(k.kind)}</b>{k.label}</a>)}
+		<a class="stat" href="/admin/messages"><b>{unread}</b>Unread messages</a>
+	</div>
+	<h2>Latest messages</h2>
+	<table>
+		<thead><tr><th>From</th><th>Message</th><th>Received</th></tr></thead>
+		<tbody>
+			{msgs.map((m) => (
+				<tr class:list={[{ unread: !m.is_read }]}>
+					<td><a href={`/admin/messages?view=${m.id}`}>{m.name}</a><br /><small>{m.email}</small></td>
+					<td class="clip">{m.message}</td><td>{m.created_at}</td>
+				</tr>
+			))}
+			{msgs.length === 0 && <tr><td colspan="3">No messages yet.</td></tr>}
+		</tbody>
+	</table>
+</AdminLayout>

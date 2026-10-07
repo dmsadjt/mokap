@@ -1,0 +1,44 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { kinds, parseForm, fieldValue } from '../../../lib/schema';
+import { getItem, saveItem, type Kind } from '../../../lib/db';
+
+const cfg = kinds[Astro.params.kind as Kind];
+if (!cfg) return new Response(null, { status: 404 });
+const isNew = Astro.params.id === 'new';
+const id = isNew ? null : Number(Astro.params.id);
+let item: any = isNew ? {} : getItem(cfg.kind, id!);
+if (!item) return new Response(null, { status: 404 });
+
+let errors: string[] = [];
+if (Astro.request.method === 'POST') {
+	const form = await Astro.request.formData();
+	const parsed = parseForm(cfg, form);
+	errors = parsed.errors;
+	if (errors.length === 0) {
+		if (cfg.kind === 'projects' && !isNew) parsed.data.id = item.id;
+		const savedId = saveItem(cfg.kind, id, parsed.data);
+		if (cfg.kind === 'projects' && isNew) saveItem(cfg.kind, savedId, { ...parsed.data, id: savedId });
+		return Astro.redirect(`/admin/${cfg.kind}?saved=1`);
+	}
+	// re-render with what the user typed
+	item = Object.fromEntries(cfg.fields.map((f) => [f.name, form.get(f.name)]));
+}
+const title = isNew ? `New ${cfg.singular}` : `Edit ${cfg.singular}`;
+---
+<AdminLayout title={title} active={cfg.kind}>
+	{errors.length > 0 && <div class="err">{errors.map((e) => <div>{e}</div>)}</div>}
+	<form method="post" class="edit card">
+		{cfg.fields.map((f) => (
+			<label>
+				{f.label}{f.required && ' *'}
+				{f.help && <small>{f.help}</small>}
+				{f.type === 'textarea' && <textarea name={f.name} rows="4">{fieldValue(f, item[f.name])}</textarea>}
+				{f.type === 'lines' && <textarea name={f.name} rows="5">{fieldValue(f, item[f.name])}</textarea>}
+				{f.type === 'json' && <textarea name={f.name} rows="10" class="json">{fieldValue(f, item[f.name])}</textarea>}
+				{(f.type === 'text' || f.type === 'date') && <input name={f.name} type={f.type === 'date' ? 'date' : 'text'} value={fieldValue(f, item[f.name])} />}
+			</label>
+		))}
+		<div class="bar"><button class="btn">Save</button><a class="btn sec" href={`/admin/${cfg.kind}`}>Cancel</a></div>
+	</form>
+</AdminLayout>

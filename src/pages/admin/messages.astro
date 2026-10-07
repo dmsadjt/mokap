@@ -1,0 +1,47 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { db } from '../../lib/db';
+
+if (Astro.request.method === 'POST') {
+	const f = await Astro.request.formData();
+	const id = Number(f.get('id'));
+	const act = f.get('action');
+	if (act === 'delete') db.prepare('DELETE FROM messages WHERE id=?').run(id);
+	if (act === 'toggle') db.prepare('UPDATE messages SET is_read = 1 - is_read WHERE id=?').run(id);
+	return Astro.redirect('/admin/messages');
+}
+const viewId = Number(Astro.url.searchParams.get('view')) || 0;
+let open: any;
+if (viewId) {
+	db.prepare('UPDATE messages SET is_read=1 WHERE id=?').run(viewId);
+	open = db.prepare('SELECT * FROM messages WHERE id=?').get(viewId);
+}
+const msgs = db.prepare('SELECT * FROM messages ORDER BY id DESC').all() as any[];
+---
+<AdminLayout title="Messages" active="messages">
+	{open && (
+		<div class="card" style="margin-bottom:20px">
+			<h2 style="margin-top:0">{open.name}</h2>
+			<p><a href={`mailto:${open.email}`}>{open.email}</a>{open.phone && ` · ${open.phone}`} · <small>{open.created_at}</small></p>
+			<p style="white-space:pre-wrap">{open.message}</p>
+			<a class="btn sec" href="/admin/messages">Close</a>
+		</div>
+	)}
+	<table>
+		<thead><tr><th>From</th><th>Message</th><th>Received</th><th></th></tr></thead>
+		<tbody>
+			{msgs.map((m) => (
+				<tr class:list={[{ unread: !m.is_read }]}>
+					<td><a href={`/admin/messages?view=${m.id}`}>{m.name}</a><br /><small>{m.email}</small></td>
+					<td class="clip">{m.message}</td>
+					<td>{m.created_at}</td>
+					<td style="white-space:nowrap">
+						<form method="post" style="display:inline"><input type="hidden" name="id" value={m.id} /><button class="btn sec" name="action" value="toggle">{m.is_read ? 'Mark unread' : 'Mark read'}</button></form>
+						<form method="post" style="display:inline" onsubmit="return confirm('Delete this message?')"><input type="hidden" name="id" value={m.id} /><button class="btn danger" name="action" value="delete">Delete</button></form>
+					</td>
+				</tr>
+			))}
+			{msgs.length === 0 && <tr><td colspan="4">No messages yet.</td></tr>}
+		</tbody>
+	</table>
+</AdminLayout>

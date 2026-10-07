@@ -1,0 +1,349 @@
+---
+import { navItems } from "../data/nav";
+import {
+    getLangFromUrl,
+    useTranslations,
+    defaultLang,
+    localizePath,
+} from "../i18n/ui";
+import Icon from "./Icon.astro";
+import { site } from "../config/site";
+
+const currentPath = Astro.url.pathname;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Strip the locale prefix to get the "canonical" path for building switch links and active-state checks.
+const unprefixedPath =
+    lang === defaultLang
+        ? currentPath
+        : currentPath.replace(new RegExp(`^/${lang}`), "") || "/";
+
+function isActive(href: string) {
+    if (href === "/") return unprefixedPath === "/";
+    return unprefixedPath.startsWith(href.split("#")[0]);
+}
+---
+
+<header class="site-header">
+    <div class="topbar">
+        <div class="container topbar-inner">
+            <div class="topbar-info">
+                <span class="topbar-item">
+                    <span class="icon-badge">
+                        <Icon name="phone" size={14} />
+                    </span>
+                    {site.phone}
+                </span>
+                <span class="topbar-item">
+                    <span class="icon-badge">
+                        <Icon name="mail" size={14} />
+                    </span>
+                    {site.email}
+                </span>
+                <span>{t("topbar.hours")}</span>
+            </div>
+            <span class="lang-switch">
+                <a
+                    href={localizePath(unprefixedPath, "en")}
+                    class:list={{ active: lang === "en" }}>EN</a
+                >
+                <a
+                    href={localizePath(unprefixedPath, "id")}
+                    class:list={{ active: lang === "id" }}>ID</a
+                >
+            </span>
+        </div>
+    </div>
+
+    <nav class="main-nav">
+        <div class="container nav-inner">
+            <a href={localizePath("/", lang)} class="logo">
+                <span class="wordmark">{site.name}</span>
+            </a>
+            <button
+                class="nav-toggle"
+                aria-label="Toggle menu"
+                aria-expanded="false"
+                id="nav-toggle"
+            >
+                <Icon name="menu" class="icon-menu" />
+                <Icon name="close" class="icon-close" />
+            </button>
+            <ul class="nav-list" id="nav-list">
+                {
+                    navItems.map((item) => (
+                        <li
+                            class:list={[
+                                "nav-item",
+                                {
+                                    "has-children": item.children,
+                                    active: isActive(item.href),
+                                },
+                            ]}
+                        >
+                            <a href={localizePath(item.href, lang)}>
+                                {t(item.labelKey)}
+                            </a>
+                            {item.children && (
+                                <ul class="dropdown">
+                                    {item.children.map((child) => (
+                                        <li>
+                                            <a
+                                                href={localizePath(
+                                                    child.href,
+                                                    lang,
+                                                )}
+                                            >
+                                                {t(child.labelKey)}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<script>
+    const toggle = document.getElementById("nav-toggle");
+    const list = document.getElementById("nav-list");
+    toggle?.addEventListener("click", () => {
+        const expanded = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!expanded));
+        list?.classList.toggle("open");
+    });
+</script>
+
+<style>
+    .topbar {
+        background: var(--color-navy);
+        color: #fff;
+        font-size: 0.85rem;
+    }
+
+    .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        flex-wrap: wrap;
+    }
+
+    .logo {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 0;
+    }
+
+    .wordmark {
+        font-weight: 800;
+        font-size: 1.5rem;
+        letter-spacing: 0.02em;
+        color: var(--color-navy);
+    }
+
+    .topbar-info {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+
+    .topbar-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .icon-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--color-red);
+        flex-shrink: 0;
+    }
+
+    .icon-badge :global(svg) {
+        color: #fff;
+    }
+
+    .lang-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        padding: 3px;
+    }
+
+    .lang-switch a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 28px;
+        padding: 3px 10px;
+        border-radius: 999px;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 700;
+        font-size: 0.75rem;
+        transition:
+            background 0.2s ease,
+            color 0.2s ease;
+    }
+
+    .lang-switch a.active {
+        background: var(--color-red);
+        color: #fff;
+    }
+
+    .lang-switch a:hover:not(.active) {
+        color: #fff;
+    }
+
+    .main-nav {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        z-index: 20;
+    }
+
+    .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+    }
+
+    .nav-list {
+        list-style: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-item > a {
+        display: block;
+        padding: 18px 16px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--color-navy);
+    }
+
+    .nav-item.active > a,
+    .nav-item > a:hover {
+        color: var(--color-red);
+    }
+
+    .dropdown {
+        list-style: none;
+        margin: 0;
+        padding: 8px 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 260px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        display: none;
+    }
+
+    .nav-item.has-children:hover .dropdown {
+        display: block;
+    }
+
+    .dropdown li a {
+        display: block;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        color: var(--color-text);
+        text-transform: none;
+        font-weight: 500;
+    }
+
+    .dropdown li a:hover {
+        background: var(--color-bg-alt);
+        color: var(--color-red);
+    }
+
+    .nav-toggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 12px;
+        color: var(--color-navy);
+    }
+
+    .nav-toggle :global(.icon-close) {
+        display: none;
+    }
+
+    .nav-toggle[aria-expanded="true"] :global(.icon-menu) {
+        display: none;
+    }
+
+    .nav-toggle[aria-expanded="true"] :global(.icon-close) {
+        display: block;
+    }
+
+    @media (max-width: 900px) {
+        .nav-toggle {
+            display: flex;
+        }
+
+        .nav-inner {
+            justify-content: space-between;
+        }
+
+        .nav-list {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-list.open {
+            display: flex;
+        }
+
+        .dropdown {
+            position: static;
+            box-shadow: none;
+            display: none;
+            padding-left: 16px;
+        }
+
+        .nav-item.has-children:hover .dropdown {
+            display: none;
+        }
+
+        .nav-item.has-children .dropdown {
+            display: block;
+        }
+    }
+</style>

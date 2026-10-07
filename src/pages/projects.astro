@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ProjectsExplorer from '../components/ProjectsExplorer.astro';
+import { getProjects } from '../lib/content';
+const projects = getProjects();
+import { getLangFromUrl, useTranslations } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title={t('projects.title')}>
+	<PageHeader title={t('projects.title')} subtitle={t('projects.subtitle')} />
+
+	<section>
+		<div class="container full-bleed">
+			<ProjectsExplorer projects={projects} />
+		</div>
+	</section>
+</Layout>
+
+<style>
+	section .container.full-bleed {
+		max-width: none;
+		padding: 0 24px;
+	}
+</style>

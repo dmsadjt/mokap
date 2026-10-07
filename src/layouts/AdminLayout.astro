@@ -1,0 +1,71 @@
+---
+import { kinds } from '../lib/schema';
+import { db } from '../lib/db';
+import { site } from '../config/site';
+interface Props { title: string; active?: string }
+const { title, active = '' } = Astro.props;
+const unread = (db.prepare('SELECT COUNT(*) c FROM messages WHERE is_read=0').get() as { c: number }).c;
+---
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="robots" content="noindex" />
+	<title>{title} | Admin</title>
+</head>
+<body>
+	<aside>
+		<a class="brand" href="/admin">{site.shortName} <span>Admin</span></a>
+		<nav>
+			<a href="/admin" class:list={[{ on: active === 'dash' }]}>Dashboard</a>
+			{Object.values(kinds).map((k) => <a href={`/admin/${k.kind}`} class:list={[{ on: active === k.kind }]}>{k.label}</a>)}
+			<a href="/admin/messages" class:list={[{ on: active === 'messages' }]}>Messages {unread > 0 && <b class="badge">{unread}</b>}</a>
+		</nav>
+		<div class="foot">
+			<a href="/" target="_blank">View site ↗</a>
+			<form method="post" action="/admin/logout"><button>Log out ({Astro.locals.user})</button></form>
+		</div>
+	</aside>
+	<main><h1>{title}</h1><slot /></main>
+</body>
+</html>
+<style is:global>
+	:root { --red:#cc1b1b; --navy:#203768; --line:#e1e4ea; --bg:#f4f6fa; }
+	* { box-sizing: border-box; }
+	body { margin:0; display:flex; min-height:100vh; font-family:'Montserrat',system-ui,sans-serif; background:var(--bg); color:#222; font-size:14px; }
+	aside { width:220px; background:var(--navy); color:#fff; display:flex; flex-direction:column; padding:20px 0; position:sticky; top:0; height:100vh; flex-shrink:0; }
+	aside a { color:#dfe6f5; text-decoration:none; }
+	.brand { font-weight:800; font-size:1.2rem; padding:0 20px 20px; color:#fff !important; }
+	.brand span { color:#ff7a7a; font-weight:500; }
+	aside nav { display:flex; flex-direction:column; flex:1; }
+	aside nav a { padding:10px 20px; border-left:3px solid transparent; }
+	aside nav a:hover { background:rgba(255,255,255,.08); }
+	aside nav a.on { background:rgba(255,255,255,.12); border-left-color:var(--red); color:#fff; }
+	.badge { background:var(--red); color:#fff; border-radius:10px; padding:1px 7px; font-size:.75rem; margin-left:4px; }
+	.foot { padding:0 20px; display:grid; gap:10px; font-size:.85rem; }
+	.foot button { background:none; border:1px solid rgba(255,255,255,.4); color:#fff; padding:6px 10px; border-radius:4px; cursor:pointer; width:100%; }
+	main { flex:1; padding:28px 36px; min-width:0; }
+	h1 { margin:0 0 20px; font-size:1.5rem; color:var(--navy); }
+	.card { background:#fff; border:1px solid var(--line); border-radius:6px; padding:20px; }
+	table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:6px; overflow:hidden; }
+	th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+	th { background:#eef1f7; font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; color:#555; }
+	td.clip { max-width:340px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+	tr.unread td { font-weight:700; }
+	.btn { display:inline-block; background:var(--red); color:#fff; border:0; padding:8px 16px; border-radius:4px; font:inherit; font-weight:600; cursor:pointer; text-decoration:none; }
+	.btn.sec { background:#fff; color:var(--navy); border:1px solid var(--line); }
+	.btn.danger { background:#fff; color:var(--red); border:1px solid var(--red); }
+	.bar { display:flex; gap:10px; align-items:center; margin-bottom:14px; flex-wrap:wrap; }
+	.bar input[type=search] { padding:8px 10px; border:1px solid var(--line); border-radius:4px; min-width:240px; font:inherit; }
+	form.edit { display:grid; gap:14px; max-width:820px; }
+	form.edit label { display:grid; gap:4px; font-weight:600; font-size:.85rem; }
+	form.edit small { font-weight:400; color:#777; }
+	form.edit input, form.edit textarea { padding:8px 10px; border:1px solid #cdd3df; border-radius:4px; font:inherit; font-weight:400; width:100%; }
+	form.edit textarea.json { font-family:ui-monospace,Consolas,monospace; font-size:.8rem; }
+	.err { background:#fde8e8; border:1px solid #f3b4b4; color:#8a1111; padding:10px 14px; border-radius:4px; margin-bottom:14px; }
+	.ok { background:#e6f6ea; border:1px solid #a9dbb6; color:#14602a; padding:10px 14px; border-radius:4px; margin-bottom:14px; }
+	.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-bottom:24px; }
+	.stat { background:#fff; border:1px solid var(--line); border-top:3px solid var(--red); border-radius:6px; padding:16px; text-decoration:none; color:inherit; }
+	.stat b { display:block; font-size:2rem; color:var(--navy); }
+	@media (max-width:760px) { body { flex-direction:column; } aside { width:100%; height:auto; position:static; } aside nav { flex-direction:row; flex-wrap:wrap; } main { padding:18px; } }
+</style>

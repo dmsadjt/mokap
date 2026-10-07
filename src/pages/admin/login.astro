@@ -1,0 +1,33 @@
+---
+import { login, currentUser } from '../../lib/auth';
+import { site } from '../../config/site';
+if (currentUser(Astro.cookies)) return Astro.redirect('/admin');
+let error = '';
+if (Astro.request.method === 'POST') {
+	const f = await Astro.request.formData();
+	if (login(Astro.cookies, String(f.get('username') ?? ''), String(f.get('password') ?? ''))) return Astro.redirect('/admin');
+	error = 'Invalid username or password.';
+}
+---
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="robots" content="noindex" /><title>Admin Login</title></head>
+<body>
+	<form method="post" class="box">
+		<h1>{site.shortName} <span>Admin</span></h1>
+		{error && <p class="err">{error}</p>}
+		<label>Username<input name="username" autocomplete="username" required autofocus /></label>
+		<label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+		<button>Sign in</button>
+		<p class="hint">Mockup credentials: <code>admin</code> / <code>admin123</code></p>
+	</form>
+</body></html>
+<style is:global>
+	body { margin:0; min-height:100vh; display:grid; place-items:center; background:#203768; font-family:'Montserrat',system-ui,sans-serif; }
+	.box { background:#fff; padding:32px; border-radius:8px; width:min(360px,92vw); display:grid; gap:14px; }
+	.box h1 { margin:0; color:#203768; } .box h1 span { color:#cc1b1b; font-weight:500; }
+	.box label { display:grid; gap:4px; font-weight:600; font-size:.85rem; }
+	.box input { padding:10px; border:1px solid #cdd3df; border-radius:4px; font:inherit; }
+	.box button { background:#cc1b1b; color:#fff; border:0; padding:11px; border-radius:4px; font:inherit; font-weight:700; cursor:pointer; }
+	.err { background:#fde8e8; color:#8a1111; padding:8px 12px; border-radius:4px; margin:0; font-size:.85rem; }
+	.hint { margin:0; font-size:.78rem; color:#777; text-align:center; }
+</style>
