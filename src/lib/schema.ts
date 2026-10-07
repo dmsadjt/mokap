@@ -1,6 +1,6 @@
 import type { Kind } from './db';
 
-export type FieldType = 'text' | 'textarea' | 'lines' | 'json' | 'date';
+export type FieldType = 'text' | 'textarea' | 'lines' | 'json' | 'date' | 'image';
 export interface Field {
 	name: string;
 	label: string;
@@ -39,7 +39,7 @@ export const kinds: Record<Kind, KindConfig> = {
 			{ name: 'yearBuilt', label: 'Year built', type: 'text' },
 			{ name: 'material', label: 'Material', type: 'text' },
 			{ name: 'codeStd', label: 'Code / standard', type: 'text' },
-			{ name: 'image', label: 'Image path', type: 'text', help: 'e.g. /placeholder.svg' },
+			{ name: 'image', label: 'Image', type: 'image' },
 		],
 	},
 	services: {
@@ -81,7 +81,7 @@ export const kinds: Record<Kind, KindConfig> = {
 		columns: ['name', 'logo'],
 		fields: [
 			{ name: 'name', label: 'Name', type: 'text', required: true },
-			{ name: 'logo', label: 'Logo path', type: 'text', help: 'e.g. /placeholder.svg' },
+			{ name: 'logo', label: 'Logo', type: 'image' },
 		],
 	},
 };

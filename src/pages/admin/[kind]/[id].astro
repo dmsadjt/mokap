@@ -2,6 +2,7 @@
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 import { kinds, parseForm, fieldValue } from '../../../lib/schema';
 import { getItem, saveItem, type Kind } from '../../../lib/db';
+import { saveUpload, deleteUpload } from '../../../lib/uploads';
 
 const cfg = kinds[Astro.params.kind as Kind];
 if (!cfg) return new Response(null, { status: 404 });
@@ -13,11 +14,31 @@ if (!item) return new Response(null, { status: 404 });
 let errors: string[] = [];
 if (Astro.request.method === 'POST') {
 	const form = await Astro.request.formData();
+	// Resolve image fields first: new upload > remove > keep existing
+	const uploadErrors: string[] = [];
+	const staleUploads: unknown[] = [];
+	for (const fld of cfg.fields.filter((x) => x.type === 'image')) {
+		const file = form.get(fld.name + '__file');
+		const current = String(form.get(fld.name) ?? '');
+		if (file instanceof File && file.size > 0) {
+			const r = await saveUpload(file);
+			if (r.error) uploadErrors.push(`${fld.label}: ${r.error}`);
+			else {
+				staleUploads.push(current);
+				form.set(fld.name, r.path!);
+			}
+		} else if (form.get(fld.name + '__remove')) {
+			staleUploads.push(current);
+			form.set(fld.name, '');
+		}
+	}
 	const parsed = parseForm(cfg, form);
+	parsed.errors.push(...uploadErrors);
 	errors = parsed.errors;
 	if (errors.length === 0) {
 		if (cfg.kind === 'projects' && !isNew) parsed.data.id = item.id;
 		const savedId = saveItem(cfg.kind, id, parsed.data);
+		staleUploads.forEach(deleteUpload);
 		if (cfg.kind === 'projects' && isNew) saveItem(cfg.kind, savedId, { ...parsed.data, id: savedId });
 		return Astro.redirect(`/admin/${cfg.kind}?saved=1`);
 	}
@@ -28,11 +49,20 @@ const title = isNew ? `New ${cfg.singular}` : `Edit ${cfg.singular}`;
 ---
 <AdminLayout title={title} active={cfg.kind}>
 	{errors.length > 0 && <div class="err">{errors.map((e) => <div>{e}</div>)}</div>}
-	<form method="post" class="edit card">
+	<form method="post" enctype="multipart/form-data" class="edit card">
 		{cfg.fields.map((f) => (
 			<label>
 				{f.label}{f.required && ' *'}
 				{f.help && <small>{f.help}</small>}
+				{f.type === 'image' && (
+					<>
+						<input type="hidden" name={f.name} value={fieldValue(f, item[f.name])} />
+						{item[f.name] && <img class="thumb" src={item[f.name]} alt="" />}
+						<input type="file" name={f.name + '__file'} accept="image/png,image/jpeg,image/webp,image/gif" />
+						<small>PNG, JPG, WebP or GIF, up to 5 MB. Choosing a file replaces the current image.</small>
+						{item[f.name] && <span class="check"><input type="checkbox" name={f.name + '__remove'} value="1" /> Remove current image</span>}
+					</>
+				)}
 				{f.type === 'textarea' && <textarea name={f.name} rows="4">{fieldValue(f, item[f.name])}</textarea>}
 				{f.type === 'lines' && <textarea name={f.name} rows="5">{fieldValue(f, item[f.name])}</textarea>}
 				{f.type === 'json' && <textarea name={f.name} rows="10" class="json">{fieldValue(f, item[f.name])}</textarea>}
