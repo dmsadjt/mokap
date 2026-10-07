@@ -1,4 +1,4 @@
-# Company Website — Admin Mockup
+# mokap
 
 A generic company website with a local admin panel. All brand details are placeholders ("Acme Industrial") and live in `src/config/site.ts`; page copy is in `src/i18n/ui.ts`.
 
