@@ -1,0 +1,66 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import ItemCard from '../../../components/ItemCard.astro';
+import { getArticles, matches } from '../../../lib/content';
+import { badLang } from '../../../lib/lang';
+import { getLangFromUrl, useTranslations, localizePath } from '../../../i18n/ui';
+
+if (badLang(Astro.params.lang)) return new Response(null, { status: 404 });
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const q = Astro.url.searchParams.get('q') ?? '';
+const category = Astro.url.searchParams.get('category') ?? '';
+const all = getArticles();
+const categories = [...new Set(all.map((a) => a.category).filter(Boolean))].sort();
+const articles = all.filter((a) => (!category || a.category === category) && matches(a, q));
+---
+
+<Layout title={t('articles.title')}>
+	<PageHeader title={t('articles.title')} subtitle={t('articles.subtitle')} />
+	<section>
+		<div class="container">
+			<form class="filters" method="get">
+				<input type="search" name="q" value={q} placeholder={t('articles.search')} aria-label={t('common.search')} />
+				<select name="category" aria-label="Category">
+					<option value="">{t('articles.allCategories')}</option>
+					{categories.map((c) => <option value={c} selected={c === category}>{c}</option>)}
+				</select>
+				<button class="btn" type="submit">{t('common.search')}</button>
+			</form>
+			{articles.length === 0 && <p>{t('articles.noResults')}</p>}
+			<div class="grid">
+				{
+					articles.map((a) => (
+						<ItemCard href={localizePath(`/articles/${a.slug}`, lang)} title={a.title} text={a.excerpt} image={a.image} meta={a.date} badge={a.category} />
+					))
+				}
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.filters {
+		display: flex;
+		gap: 12px;
+		flex-wrap: wrap;
+		margin-bottom: 32px;
+	}
+	.filters input,
+	.filters select {
+		font: inherit;
+		padding: 10px 12px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+	}
+	.filters input {
+		flex: 1 1 240px;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 24px;
+	}
+</style>

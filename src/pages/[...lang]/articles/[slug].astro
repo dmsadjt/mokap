@@ -1,0 +1,49 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import { getArticles } from '../../../lib/content';
+import { badLang } from '../../../lib/lang';
+import { getLangFromUrl, useTranslations, localizePath } from '../../../i18n/ui';
+
+if (badLang(Astro.params.lang)) return new Response(null, { status: 404 });
+const article = getArticles().find((a) => a.slug === Astro.params.slug);
+if (!article) return new Response(null, { status: 404 });
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const paragraphs = (article.body ?? '').split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
+const byline = [article.category, article.date, article.author && `${t('articles.by')} ${article.author}`].filter(Boolean).join(' · ');
+---
+
+<Layout title={article.title} description={article.excerpt}>
+	<PageHeader title={article.title} subtitle={byline} />
+	<section>
+		<div class="container article">
+			{article.image && <img class="cover" src={article.image} alt={article.title} />}
+			{article.excerpt && <p class="lead">{article.excerpt}</p>}
+			{paragraphs.map((p) => <p>{p}</p>)}
+			<a class="back" href={localizePath('/articles', lang)}>{t('common.back')}</a>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.article {
+		max-width: 760px;
+	}
+	.cover {
+		width: 100%;
+		border-radius: 4px;
+		margin-bottom: 24px;
+	}
+	.lead {
+		font-size: 1.15rem;
+		font-weight: 600;
+	}
+	.back {
+		display: inline-block;
+		margin-top: 24px;
+		color: var(--color-red);
+		font-weight: 700;
+		text-decoration: none;
+	}
+</style>

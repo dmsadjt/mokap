@@ -1,0 +1,55 @@
+---
+// A homepage band: heading + "view all" link + a grid of cards (pass <ItemCard> as the slot).
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n/ui';
+
+interface Props {
+	label: string;
+	heading: string;
+	href: string;
+	alt?: boolean;
+}
+
+const { label, heading, href, alt = false } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section class:list={{ alt }}>
+	<div class="container">
+		<div class="intro">
+			<div>
+				<span class="label">{label}</span>
+				<h2>{heading}</h2>
+			</div>
+			<a href={localizePath(href, lang)} class="more">{t('common.viewAll')}</a>
+		</div>
+		<div class="grid"><slot /></div>
+	</div>
+</section>
+
+<style>
+	section.alt {
+		background: var(--color-bg-alt);
+	}
+	.intro {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		gap: 24px;
+		flex-wrap: wrap;
+		margin-bottom: 32px;
+	}
+	.intro h2 {
+		margin: 0;
+	}
+	.more {
+		color: var(--color-red);
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		gap: 24px;
+	}
+</style>

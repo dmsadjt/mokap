@@ -1,9 +1,11 @@
 ---
-import { site } from '../config/site';
-import Layout from "../layouts/Layout.astro";
-import PageHeader from "../components/PageHeader.astro";
-import { getLangFromUrl, useTranslations } from "../i18n/ui";
+import { site } from '../../config/site';
+import Layout from "../../layouts/Layout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/ui";
 
+import { badLang } from "../../lib/lang";
+if (badLang(Astro.params.lang)) return new Response(null, { status: 404 });
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
@@ -32,16 +34,6 @@ const t = useTranslations(lang);
                 </ul>
             </div>
             <form class="contact-form" id="contact-form">
-                <input
-                    type="hidden"
-                    name="access_key"
-                    value="bab147f5-f1da-4d39-a2c8-50e95f301a0a"
-                />
-                <input
-                    type="hidden"
-                    name="subject"
-                    value="New website inquiry"
-                />
                 <input
                     type="checkbox"
                     name="botcheck"

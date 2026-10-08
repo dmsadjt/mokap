@@ -3,9 +3,9 @@
 A generic company website with a local admin panel. All brand details are placeholders ("Acme Industrial") and live in `src/config/site.ts`; page copy is in `src/i18n/ui.ts`.
 
 - **Stack:** Astro 7 + `@astrojs/node` (standalone), built-in `node:sqlite` (Node 22.12+), scrypt-hashed passwords, cookie sessions.
-- **Public site:** English + Indonesian pages. Projects, Services, Solutions and Clients are read from SQLite; the contact form saves to the DB.
-- **Admin:** `/admin` — login `admin` / `admin123` (mockup default). Full CRUD for Projects, Services, Solutions, Clients; inbox for contact messages.
-- **Images:** project images and client logos are uploaded in the admin (PNG/JPG/WebP/GIF, max 5 MB) and stored in `data/uploads/`.
+- **Public site:** English + Indonesian. Articles, Products, Services and Certificates are read from SQLite; the contact form saves to the DB.
+- **Admin:** `/admin` — login `admin` / `admin123` (mockup default). Full CRUD for Articles, Products, Services, Certificates; inbox for contact messages.
+- **Images:** cover images, product photos and certificate scans are uploaded in the admin (PNG/JPG/WebP/GIF, max 5 MB) and stored in `data/uploads/`.
 - **Database:** `data/app.db`, created and seeded from `src/data/*.ts` on first run. Delete it to reset.
 
 ```sh

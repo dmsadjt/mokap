@@ -10,155 +10,103 @@ export const ui = {
 		// Topbar / nav
 		'nav.home': 'Home',
 		'nav.about': 'About Us',
-		'nav.solutions': 'Solutions',
-		'nav.solutions.oilGas': 'Oil and Gas',
-		'nav.solutions.powerGeneration': 'Power Generation',
-		'nav.solutions.mining': 'Mining and General Industry',
-		'nav.solutions.food': 'Food and Beverages',
-		'nav.projects': 'Projects',
+		'nav.products': 'Products',
 		'nav.services': 'Services',
-		'nav.services.engineering': 'Engineering Services',
-		'nav.services.studyToRevamp': 'Study to Revamp',
-		'nav.services.performance': 'Performance Assessment',
-		'nav.services.maintenance': 'Maintenance Services',
-		'nav.services.cleaning': 'Cleaning Services',
-		'nav.services.flameScanner': 'Equipment Supply',
+		'nav.articles': 'Articles',
+		'nav.certificates': 'Certificates',
 		'nav.contact': 'Contact Us',
 		'topbar.hours': 'Monday to Friday, 08:00 – 17:00',
 
 		// Common
 		'common.readMore': 'Read More',
 		'common.contactUs': 'Contact Us',
-		'common.learnMore': 'Learn more →',
-		'common.previous': '← Previous',
-		'common.next': 'Next →',
+		'common.viewAll': 'View all →',
+		'common.back': '← Back',
+		'common.search': 'Search',
 		'common.noImage': 'No Image',
-		'common.noImageAvailable': 'No Image Available',
-		'common.downloadBrochure': 'Download Our Brochure',
-		'common.contactUsFullReport': 'Contact Us for Full Report',
 
 		// Hero
-		'hero.slide1': 'Innovative Solutions for Industry',
-		'hero.slide2': 'The Best Team With The Best Solution in The Field',
-		'hero.slide3': "Trusted Equipment Supply and Support",
+		'hero.slide1': 'Quality Products You Can Trust',
+		'hero.slide2': 'Services Built Around Your Needs',
+		'hero.slide3': 'News, Guides and Updates From Our Team',
 
-		// Company Overview
-		'overview.label': 'Company Overview',
-		'overview.heading': 'Acme Industrial',
+		// Home
+		'overview.label': 'Who We Are',
+		'overview.heading': 'Welcome',
 		'overview.body':
-			"Welcome to Acme Industrial's homepage. Acme Industrial was established to cater to customer demand for process equipment products. The company has been thriving and expanding ever since, providing high-quality products and services to our customers. Our team of experts is dedicated to ensuring that our customers receive the best possible solutions for their needs.",
-
-		// Our Solution
-		'ourSolution.label': 'Our Solution',
-		'ourSolution.heading': 'We cater to a diverse audience with our products and services.',
-		'ourSolution.body':
-			'The company offers a wide range of services including process design, thermal design, engineering, procurement, and construction of equipment and systems. The equipment and systems include Process Skid Package, Shell & Tube Heat Exchangers, Air Cooled Heat Exchangers, Closed Feedwater Heater, Economizer, Air Heater, Separator, Scrubber, KO Drum, Sand Filter, and General Pressure Vessels.',
-
-		// Our Services (homepage)
-		'ourServices.label': 'Our Services',
-		'ourServices.heading': 'How do we help your project.',
-		'ourServices.body':
-			'Our company now offers technical assistance and support, installation, maintenance of products, and system design services.',
-		'ourServices.list.engineering': 'Engineering Services',
-		'ourServices.list.studyToRevamp': 'Study to Revamp',
-		'ourServices.list.cleaning': 'Cleaning Services',
-		'ourServices.list.performance': 'Performance Assessment',
-		'ourServices.list.maintenance': 'Maintenance Services',
-		'ourServices.list.flameScanner': 'Equipment Supply',
-
-		// Projects list (homepage)
-		'projectsList.label': 'Our Solution',
-		'projectsList.heading': 'Projects Experience List',
-		'projectsList.body':
-			"Our portfolio comprises a range of ongoing and completed projects over the years. Our services cater to a diverse audience, making us highly adaptable to our clients' needs in any situation.",
-		'projectsList.cta': 'Our Portfolio',
-		'projectsList.subheading': 'Our Recent Projects',
-
-		// Client list
-		'clientList.heading': 'Our Client List',
-
-		// Contact CTA
-		'contactCta.text': 'If you have any project, feel free to contact us',
+			'We provide quality products and dependable services to customers who value reliability. Learn more about our company, browse what we offer, and get in touch whenever you are ready.',
+		'home.products.label': 'Products',
+		'home.products.heading': 'What we offer',
+		'home.services.label': 'Services',
+		'home.services.heading': 'How we can help',
+		'home.services.body': 'From advice to installation and ongoing support, our team is here for every step.',
+		'home.articles.label': 'Articles',
+		'home.articles.heading': 'Latest from our blog',
+		'home.certificates.label': 'Certificates',
+		'home.certificates.heading': 'Certified and trusted',
+		'contactCta.text': 'Have a question or need a quotation? Get in touch with us.',
 
 		// About page
 		'about.title': 'About Us',
-		'about.subtitle': 'Who we are and what drives Acme Industrial.',
+		'about.subtitle': 'Who we are and what drives us.',
 		'about.overview.label': 'Company Overview',
-		'about.overview.heading': 'Acme Industrial',
+		'about.overview.heading': 'Our Story',
 		'about.overview.body1':
-			'Acme Industrial was established to cater to customer demand for process equipment products. The company has been thriving and expanding ever since, providing high-quality products and services to our customers.',
+			'We started with a simple goal: to offer good products and honest service. Since then we have grown steadily, thanks to the customers who keep coming back.',
 		'about.overview.body2':
-			'Our team of experts is dedicated to ensuring that our customers receive the best possible solutions for their needs, from process and thermal design through engineering, procurement, and construction of equipment and systems.',
+			'Today our team supports customers from first enquiry through delivery and after-sales care.',
 		'about.vision.heading': 'Our Vision',
-		'about.vision.body':
-			'Acme Industrial strives to offer the most innovative industrial solutions.',
-		'about.objective.heading': 'Our Objective',
-		'about.objective.body':
-			'Benefit customer by providing affordable and superior products; offer the most innovative industrial solutions with a strong focus on engineering.',
-		'about.leadership.heading': 'Experienced Leadership',
-		'about.leadership.body1': 'Our leadership team brings decades of combined experience in engineering, project delivery and customer support.',
-		'about.leadership.body2': 'We combine deep technical expertise with a practical, customer-first approach so every project is delivered safely, on time and to specification.',
+		'about.vision.body': 'To be the most trusted name in our field.',
+		'about.objective.heading': 'Our Mission',
+		'about.objective.body': 'Deliver reliable products and helpful service at fair prices, and keep improving.',
+		'about.leadership.heading': 'Our Team',
+		'about.leadership.body1': 'Our people bring years of experience and a practical, customer-first attitude.',
+		'about.leadership.body2': 'We believe good work comes from listening first and delivering on what we promise.',
 		'about.whyChooseUs.heading': 'Why Choose Us',
-		'about.whyChooseUs.body':
-			'Safe work environment, safe system of work, suitable & safe equipment, information, instruction, and training to ensure workers are competent.',
-		'about.safety.heading': 'Safety Commitment',
+		'about.whyChooseUs.body': 'Reliable quality, clear communication, and support that does not disappear after the sale.',
+		'about.safety.heading': 'Quality Commitment',
 		'about.safety.body':
-			'We prioritize the safety and health of all employees, contractors, visitors, and suppliers. We adhere to government regulations on occupational safety and health, and continuously improve our OSH management.',
+			'We hold ourselves to recognised standards and keep our certifications up to date. See our certificates page for details.',
 
-		// Solutions
-		'solutions.title': 'Solutions',
-		'solutions.products.heading': 'What We Offer',
-		'solutions.whyChooseUs.heading': 'Why Choose Us',
-		'solutions.caseStudies.heading': 'Featured Case Studies',
-		'solutions.specSummary': 'Specification Summary',
-		'solutions.materialSpec': 'Material Specification',
-		'solutions.codeCompliance': 'Code Compliance',
-		'solutions.whatWeDid': 'What We Did',
+		// Articles
+		'articles.title': 'Articles',
+		'articles.subtitle': 'News, guides and updates from our team.',
+		'articles.search': 'Search articles…',
+		'articles.allCategories': 'All categories',
+		'articles.noResults': 'No articles found.',
+		'articles.by': 'By',
+
+		// Products
+		'products.title': 'Products',
+		'products.subtitle': 'Browse what we offer.',
+		'products.search': 'Search products…',
+		'products.noResults': 'No products found.',
+		'products.features': 'Features',
+		'products.price': 'Price',
+		'products.enquire': 'Enquire about this product',
 
 		// Services
 		'services.title': 'Services',
-		'services.subtitle':
-			'Additional capabilities have been added to the organization to include technical assistance and support, installation, maintenance of products and design of systems.',
-		'services.wantDetails': 'Want the full details?',
-		'services.caseStudies.heading': 'Case Studies',
-		'services.customer': 'Customer',
-		'services.summary': 'Summary',
-		'services.challenge': 'Challenge',
-		'services.specSummary': 'Specification Summary',
-		'services.solutions': 'Solutions',
-		'services.whatWeDid': 'What We Did',
-		'services.result': 'Result',
+		'services.subtitle': 'Support for every step, from advice to aftercare.',
+		'services.search': 'Search services…',
+		'services.noResults': 'No services found.',
+		'services.whatsIncluded': "What's included",
 
-		// Projects
-		'projects.title': 'Our Portfolio',
-		'projects.subtitle':
-			'A range of ongoing and completed projects across oil & gas, power, mining, and food & beverage industries.',
-		'projects.search.placeholder': 'Search by customer, title, or project ID…',
-		'projects.search.label': 'Search',
-		'projects.filter.label': 'Filters',
-		'projects.filter.type': 'Type',
-		'projects.filter.year': 'Year',
-		'projects.filter.allTypes': 'All Types',
-		'projects.filter.allYears': 'All Years',
-		'projects.results': 'projects found',
-		'projects.noResults': 'No projects match your search.',
-		'projects.field.id': 'ID Project',
-		'projects.field.customer': 'Customer',
-		'projects.field.type': 'Type',
-		'projects.field.equipment': 'Equipment Name',
-		'projects.field.scope': 'Scope of Work',
-		'projects.field.weight': 'Weight Kgs',
-		'projects.field.year': 'Year Built',
-		'projects.field.material': 'Material',
-		'projects.field.code': 'Code/Std',
+		// Certificates
+		'certificates.title': 'Certificates',
+		'certificates.subtitle': 'Our certifications, accreditations and authorizations.',
+		'certificates.noResults': 'No certificates listed yet.',
+		'certificates.issuedBy': 'Issued by',
+		'certificates.issued': 'Issued',
+		'certificates.expires': 'Valid until',
+		'certificates.id': 'Certificate ID',
 
 		// Contact
 		'contact.title': 'Contact Us',
-		'contact.subtitle': 'If you have any project, feel free to contact us.',
+		'contact.subtitle': 'Questions, quotations or feedback — we would love to hear from you.',
 		'contact.getInTouch': 'Get in touch',
 		'contact.address': 'Address',
 		'contact.phone': 'Phone',
-		'contact.fax': 'Fax',
 		'contact.email': 'Email',
 		'contact.officeHours': 'Office Hours',
 		'contact.form.name': 'Name',
@@ -167,164 +115,112 @@ export const ui = {
 		'contact.form.send': 'Send Message',
 		'contact.form.sending': 'Sending…',
 		'contact.form.success': "Thanks — we've received your message and will get back to you soon.",
-		'contact.form.error': 'Something went wrong. Please try again, or email us directly at sales@example.com.',
+		'contact.form.error': 'Something went wrong. Please try again, or email us directly.',
 
 		// Footer
-		'footer.copyright': '© 2023 example.com. All Rights Reserved.',
+		'footer.rights': 'All Rights Reserved.',
 	},
 	id: {
 		// Topbar / nav
 		'nav.home': 'Beranda',
 		'nav.about': 'Tentang Kami',
-		'nav.solutions': 'Solusi',
-		'nav.solutions.oilGas': 'Minyak dan Gas',
-		'nav.solutions.powerGeneration': 'Pembangkit Listrik',
-		'nav.solutions.mining': 'Pertambangan dan Industri Umum',
-		'nav.solutions.food': 'Makanan dan Minuman',
-		'nav.projects': 'Proyek',
+		'nav.products': 'Produk',
 		'nav.services': 'Layanan',
-		'nav.services.engineering': 'Layanan Rekayasa',
-		'nav.services.studyToRevamp': 'Studi Revamp',
-		'nav.services.performance': 'Penilaian Kinerja',
-		'nav.services.maintenance': 'Layanan Perawatan',
-		'nav.services.cleaning': 'Layanan Pembersihan',
-		'nav.services.flameScanner': 'Pasokan Peralatan',
+		'nav.articles': 'Artikel',
+		'nav.certificates': 'Sertifikat',
 		'nav.contact': 'Hubungi Kami',
 		'topbar.hours': 'Senin – Jumat, 08:00 – 17:00',
 
 		// Common
 		'common.readMore': 'Selengkapnya',
 		'common.contactUs': 'Hubungi Kami',
-		'common.learnMore': 'Selengkapnya →',
-		'common.previous': '← Sebelumnya',
-		'common.next': 'Selanjutnya →',
+		'common.viewAll': 'Lihat semua →',
+		'common.back': '← Kembali',
+		'common.search': 'Cari',
 		'common.noImage': 'Tanpa Gambar',
-		'common.noImageAvailable': 'Gambar Tidak Tersedia',
-		'common.downloadBrochure': 'Unduh Brosur Kami',
-		'common.contactUsFullReport': 'Hubungi Kami untuk Laporan Lengkap',
 
 		// Hero
-		'hero.slide1': 'Solusi Perpindahan Panas Paling Inovatif',
-		'hero.slide2': 'Tim Terbaik Dengan Solusi Terbaik di Bidangnya',
-		'hero.slide3': 'Pasokan dan Dukungan Peralatan Tepercaya',
+		'hero.slide1': 'Produk Berkualitas yang Dapat Dipercaya',
+		'hero.slide2': 'Layanan yang Disesuaikan dengan Kebutuhan Anda',
+		'hero.slide3': 'Berita, Panduan, dan Kabar Terbaru dari Tim Kami',
 
-		// Company Overview
-		'overview.label': 'Ikhtisar Perusahaan',
-		'overview.heading': 'Acme Industrial',
+		// Home
+		'overview.label': 'Siapa Kami',
+		'overview.heading': 'Selamat Datang',
 		'overview.body':
-			'Selamat datang di beranda Acme Industrial. Acme Industrial didirikan untuk memenuhi permintaan pelanggan akan produk peralatan proses. Perusahaan terus berkembang sejak saat itu, menyediakan produk dan layanan berkualitas tinggi bagi para pelanggan. Tim ahli kami berkomitmen untuk memastikan pelanggan kami mendapatkan solusi terbaik sesuai kebutuhan mereka.',
-
-		// Our Solution
-		'ourSolution.label': 'Solusi Kami',
-		'ourSolution.heading': 'Kami melayani berbagai kalangan dengan produk dan layanan kami.',
-		'ourSolution.body':
-			'Perusahaan menawarkan berbagai layanan meliputi desain proses, desain termal, rekayasa, pengadaan, dan konstruksi peralatan serta sistem. Peralatan dan sistem tersebut meliputi Process Skid Package, Shell & Tube Heat Exchanger, Air Cooled Heat Exchanger, Closed Feedwater Heater, Economizer, Air Heater, Separator, Scrubber, KO Drum, Sand Filter, dan General Pressure Vessel.',
-
-		// Our Services (homepage)
-		'ourServices.label': 'Layanan Kami',
-		'ourServices.heading': 'Bagaimana kami membantu proyek Anda.',
-		'ourServices.body':
-			'Perusahaan kami kini menawarkan bantuan dan dukungan teknis, instalasi, perawatan produk, serta layanan desain sistem.',
-		'ourServices.list.engineering': 'Layanan Rekayasa',
-		'ourServices.list.studyToRevamp': 'Studi Revamp',
-		'ourServices.list.cleaning': 'Layanan Pembersihan',
-		'ourServices.list.performance': 'Penilaian Kinerja',
-		'ourServices.list.maintenance': 'Layanan Perawatan',
-		'ourServices.list.flameScanner': 'Pasokan Peralatan',
-
-		// Projects list (homepage)
-		'projectsList.label': 'Solusi Kami',
-		'projectsList.heading': 'Daftar Pengalaman Proyek',
-		'projectsList.body':
-			'Portofolio kami mencakup berbagai proyek yang sedang berjalan maupun yang telah selesai selama bertahun-tahun. Layanan kami melayani berbagai kalangan sehingga kami sangat adaptif terhadap kebutuhan klien dalam situasi apa pun.',
-		'projectsList.cta': 'Portofolio Kami',
-		'projectsList.subheading': 'Proyek Terbaru Kami',
-
-		// Client list
-		'clientList.heading': 'Daftar Klien Kami',
-
-		// Contact CTA
-		'contactCta.text': 'Jika Anda memiliki proyek, jangan ragu untuk menghubungi kami',
+			'Kami menyediakan produk berkualitas dan layanan andal bagi pelanggan yang mengutamakan kepercayaan. Kenali perusahaan kami, lihat yang kami tawarkan, dan hubungi kami kapan pun Anda siap.',
+		'home.products.label': 'Produk',
+		'home.products.heading': 'Yang kami tawarkan',
+		'home.services.label': 'Layanan',
+		'home.services.heading': 'Bagaimana kami dapat membantu',
+		'home.services.body': 'Dari konsultasi hingga pemasangan dan dukungan berkelanjutan, tim kami siap membantu di setiap langkah.',
+		'home.articles.label': 'Artikel',
+		'home.articles.heading': 'Terbaru dari blog kami',
+		'home.certificates.label': 'Sertifikat',
+		'home.certificates.heading': 'Tersertifikasi dan terpercaya',
+		'contactCta.text': 'Punya pertanyaan atau butuh penawaran? Hubungi kami.',
 
 		// About page
 		'about.title': 'Tentang Kami',
-		'about.subtitle': 'Siapa kami dan apa yang mendorong Acme Industrial.',
-		'about.overview.label': 'Ikhtisar Perusahaan',
-		'about.overview.heading': 'Acme Industrial',
+		'about.subtitle': 'Siapa kami dan apa yang mendorong kami.',
+		'about.overview.label': 'Profil Perusahaan',
+		'about.overview.heading': 'Cerita Kami',
 		'about.overview.body1':
-			'Acme Industrial didirikan untuk memenuhi permintaan pelanggan akan produk peralatan proses. Perusahaan terus berkembang sejak saat itu, menyediakan produk dan layanan berkualitas tinggi bagi para pelanggan.',
+			'Kami memulai dengan tujuan sederhana: menawarkan produk yang baik dan layanan yang jujur. Sejak itu kami terus tumbuh berkat pelanggan yang terus kembali.',
 		'about.overview.body2':
-			'Tim ahli kami berkomitmen untuk memastikan pelanggan kami mendapatkan solusi terbaik sesuai kebutuhan mereka, mulai dari desain proses dan termal hingga rekayasa, pengadaan, dan konstruksi peralatan serta sistem.',
+			'Kini tim kami mendampingi pelanggan sejak pertanyaan pertama hingga pengiriman dan layanan purna jual.',
 		'about.vision.heading': 'Visi Kami',
-		'about.vision.body':
-			'Acme Industrial berupaya menawarkan solusi perpindahan panas yang paling inovatif.',
-		'about.objective.heading': 'Tujuan Kami',
-		'about.objective.body':
-			'Memberikan manfaat bagi pelanggan dengan menyediakan produk yang terjangkau dan unggul; menawarkan solusi perpindahan panas paling inovatif dengan fokus kuat pada rekayasa.',
-		'about.leadership.heading': 'Kepemimpinan Berpengalaman',
-		'about.leadership.body1': 'Tim kepemimpinan kami memiliki pengalaman puluhan tahun di bidang rekayasa, pelaksanaan proyek, dan dukungan pelanggan.',
-		'about.leadership.body2': 'Kami memadukan keahlian teknis yang mendalam dengan pendekatan praktis yang mengutamakan pelanggan agar setiap proyek selesai dengan aman, tepat waktu, dan sesuai spesifikasi.',
+		'about.vision.body': 'Menjadi nama yang paling dipercaya di bidangnya.',
+		'about.objective.heading': 'Misi Kami',
+		'about.objective.body': 'Menghadirkan produk andal dan layanan yang membantu dengan harga wajar, serta terus berkembang.',
+		'about.leadership.heading': 'Tim Kami',
+		'about.leadership.body1': 'Tim kami membawa pengalaman bertahun-tahun dan sikap praktis yang mengutamakan pelanggan.',
+		'about.leadership.body2': 'Kami percaya pekerjaan yang baik berawal dari mendengarkan dan menepati janji.',
 		'about.whyChooseUs.heading': 'Mengapa Memilih Kami',
-		'about.whyChooseUs.body':
-			'Lingkungan kerja yang aman, sistem kerja yang aman, peralatan yang sesuai & aman, informasi, instruksi, dan pelatihan untuk memastikan pekerja kompeten.',
-		'about.safety.heading': 'Komitmen Keselamatan',
+		'about.whyChooseUs.body': 'Kualitas yang andal, komunikasi yang jelas, dan dukungan yang tidak berhenti setelah penjualan.',
+		'about.safety.heading': 'Komitmen Mutu',
 		'about.safety.body':
-			'Kami mengutamakan keselamatan dan kesehatan seluruh karyawan, kontraktor, tamu, dan pemasok. Kami mematuhi peraturan pemerintah terkait keselamatan dan kesehatan kerja, serta terus meningkatkan manajemen K3 kami.',
+			'Kami memegang standar yang diakui dan menjaga sertifikasi tetap berlaku. Lihat halaman sertifikat untuk detailnya.',
 
-		// Solutions
-		'solutions.title': 'Solusi',
-		'solutions.products.heading': 'Yang Kami Tawarkan',
-		'solutions.whyChooseUs.heading': 'Mengapa Memilih Kami',
-		'solutions.caseStudies.heading': 'Studi Kasus Unggulan',
-		'solutions.specSummary': 'Ringkasan Spesifikasi',
-		'solutions.materialSpec': 'Spesifikasi Material',
-		'solutions.codeCompliance': 'Kepatuhan Kode',
-		'solutions.whatWeDid': 'Yang Kami Kerjakan',
+		// Articles
+		'articles.title': 'Artikel',
+		'articles.subtitle': 'Berita, panduan, dan kabar terbaru dari tim kami.',
+		'articles.search': 'Cari artikel…',
+		'articles.allCategories': 'Semua kategori',
+		'articles.noResults': 'Artikel tidak ditemukan.',
+		'articles.by': 'Oleh',
+
+		// Products
+		'products.title': 'Produk',
+		'products.subtitle': 'Lihat yang kami tawarkan.',
+		'products.search': 'Cari produk…',
+		'products.noResults': 'Produk tidak ditemukan.',
+		'products.features': 'Fitur',
+		'products.price': 'Harga',
+		'products.enquire': 'Tanyakan tentang produk ini',
 
 		// Services
 		'services.title': 'Layanan',
-		'services.subtitle':
-			'Kemampuan tambahan telah ditambahkan ke dalam organisasi, meliputi bantuan dan dukungan teknis, instalasi, perawatan produk, serta desain sistem.',
-		'services.wantDetails': 'Ingin detail lengkapnya?',
-		'services.caseStudies.heading': 'Studi Kasus',
-		'services.customer': 'Pelanggan',
-		'services.summary': 'Ringkasan',
-		'services.challenge': 'Tantangan',
-		'services.specSummary': 'Ringkasan Spesifikasi',
-		'services.solutions': 'Solusi',
-		'services.whatWeDid': 'Yang Kami Kerjakan',
-		'services.result': 'Hasil',
+		'services.subtitle': 'Dukungan di setiap langkah, dari konsultasi hingga purna jual.',
+		'services.search': 'Cari layanan…',
+		'services.noResults': 'Layanan tidak ditemukan.',
+		'services.whatsIncluded': 'Yang termasuk',
 
-		// Projects
-		'projects.title': 'Portofolio Kami',
-		'projects.subtitle':
-			'Berbagai proyek yang sedang berjalan maupun telah selesai di sektor minyak & gas, pembangkit listrik, pertambangan, dan makanan & minuman.',
-		'projects.search.placeholder': 'Cari berdasarkan pelanggan, judul, atau ID proyek…',
-		'projects.search.label': 'Cari',
-		'projects.filter.label': 'Filter',
-		'projects.filter.type': 'Jenis',
-		'projects.filter.year': 'Tahun',
-		'projects.filter.allTypes': 'Semua Jenis',
-		'projects.filter.allYears': 'Semua Tahun',
-		'projects.results': 'proyek ditemukan',
-		'projects.noResults': 'Tidak ada proyek yang cocok dengan pencarian Anda.',
-		'projects.field.id': 'ID Proyek',
-		'projects.field.customer': 'Pelanggan',
-		'projects.field.type': 'Jenis',
-		'projects.field.equipment': 'Nama Peralatan',
-		'projects.field.scope': 'Lingkup Pekerjaan',
-		'projects.field.weight': 'Berat (Kg)',
-		'projects.field.year': 'Tahun Dibangun',
-		'projects.field.material': 'Material',
-		'projects.field.code': 'Kode/Standar',
+		// Certificates
+		'certificates.title': 'Sertifikat',
+		'certificates.subtitle': 'Sertifikasi, akreditasi, dan otorisasi kami.',
+		'certificates.noResults': 'Belum ada sertifikat.',
+		'certificates.issuedBy': 'Diterbitkan oleh',
+		'certificates.issued': 'Diterbitkan',
+		'certificates.expires': 'Berlaku hingga',
+		'certificates.id': 'ID Sertifikat',
 
 		// Contact
 		'contact.title': 'Hubungi Kami',
-		'contact.subtitle': 'Jika Anda memiliki proyek, jangan ragu untuk menghubungi kami.',
+		'contact.subtitle': 'Pertanyaan, penawaran, atau masukan — kami senang mendengar dari Anda.',
 		'contact.getInTouch': 'Hubungi kami',
 		'contact.address': 'Alamat',
 		'contact.phone': 'Telepon',
-		'contact.fax': 'Faks',
 		'contact.email': 'Email',
 		'contact.officeHours': 'Jam Operasional',
 		'contact.form.name': 'Nama',
@@ -333,10 +229,10 @@ export const ui = {
 		'contact.form.send': 'Kirim Pesan',
 		'contact.form.sending': 'Mengirim…',
 		'contact.form.success': 'Terima kasih — pesan Anda telah kami terima dan akan segera kami tanggapi.',
-		'contact.form.error': 'Terjadi kesalahan. Silakan coba lagi, atau email kami langsung di sales@example.com.',
+		'contact.form.error': 'Terjadi kesalahan. Silakan coba lagi, atau email kami langsung.',
 
 		// Footer
-		'footer.copyright': '© 2023 example.com. Hak Cipta Dilindungi.',
+		'footer.rights': 'Hak Cipta Dilindungi.',
 	},
 } as const;
 
@@ -345,7 +241,7 @@ export type UiKey = keyof (typeof ui)['en'];
 
 export function getLangFromUrl(url: URL): Lang {
 	const [, lang] = url.pathname.split('/');
-	if (lang in ui) return lang as Lang;
+	if (Object.hasOwn(ui, lang)) return lang as Lang;
 	return defaultLang;
 }
 

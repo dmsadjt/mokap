@@ -1,0 +1,53 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/sections/Hero.astro';
+import CompanyOverview from '../../components/sections/CompanyOverview.astro';
+import ServicesPreview from '../../components/sections/ServicesPreview.astro';
+import Showcase from '../../components/sections/Showcase.astro';
+import ContactCTA from '../../components/sections/ContactCTA.astro';
+import ItemCard from '../../components/ItemCard.astro';
+import { getProducts, getArticles, getCertificates } from '../../lib/content';
+import { badLang } from '../../lib/lang';
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n/ui';
+
+if (badLang(Astro.params.lang)) return new Response(null, { status: 404 });
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const products = getProducts().slice(0, 3);
+const articles = getArticles().slice(0, 3);
+const certificates = getCertificates().slice(0, 4);
+---
+
+<Layout title="Home">
+	<Hero />
+	<CompanyOverview />
+	{
+		products.length > 0 && (
+			<Showcase label={t('home.products.label')} heading={t('home.products.heading')} href="/products" alt>
+				{products.map((p) => (
+					<ItemCard href={localizePath(`/products/${p.slug}`, lang)} title={p.name} text={p.summary} image={p.image} meta={p.price} />
+				))}
+			</Showcase>
+		)
+	}
+	<ServicesPreview />
+	{
+		articles.length > 0 && (
+			<Showcase label={t('home.articles.label')} heading={t('home.articles.heading')} href="/articles">
+				{articles.map((a) => (
+					<ItemCard href={localizePath(`/articles/${a.slug}`, lang)} title={a.title} text={a.excerpt} image={a.image} meta={a.date} badge={a.category} />
+				))}
+			</Showcase>
+		)
+	}
+	{
+		certificates.length > 0 && (
+			<Showcase label={t('home.certificates.label')} heading={t('home.certificates.heading')} href="/certificates" alt>
+				{certificates.map((c) => (
+					<ItemCard href={localizePath('/certificates', lang)} title={c.name} image={c.image} meta={c.issuer} />
+				))}
+			</Showcase>
+		)
+	}
+	<ContactCTA />
+</Layout>

@@ -1,36 +1,26 @@
 ---
-import { companyBrochure } from '../../data/services';
-import { getLangFromUrl, useTranslations } from '../../i18n/ui';
+import { getServices } from '../../lib/content';
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n/ui';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-const serviceItems = [
-	t('ourServices.list.engineering'),
-	t('ourServices.list.studyToRevamp'),
-	t('ourServices.list.cleaning'),
-	t('ourServices.list.performance'),
-	t('ourServices.list.maintenance'),
-	t('ourServices.list.flameScanner'),
-];
+const services = getServices();
 ---
 
 <section class="our-services">
 	<div class="container services-grid">
 		<div>
-			<span class="label">{t('ourServices.label')}</span>
-			<h2>{t('ourServices.heading')}</h2>
-			<p>{t('ourServices.body')}</p>
-			<a href={companyBrochure} target="_blank" rel="noopener" class="btn">
-				{t('common.downloadBrochure')}
-			</a>
+			<span class="label">{t('home.services.label')}</span>
+			<h2>{t('home.services.heading')}</h2>
+			<p>{t('home.services.body')}</p>
+			<a href={localizePath('/services', lang)} class="btn">{t('common.readMore')}</a>
 		</div>
 		<ul class="services-list">
 			{
-				serviceItems.map((item) => (
+				services.map((s) => (
 					<li>
 						<span class="bullet" aria-hidden="true" />
-						{item}
+						<a href={localizePath(`/services/${s.slug}`, lang)}>{s.name}</a>
 					</li>
 				))
 			}
@@ -43,18 +33,15 @@ const serviceItems = [
 		background: var(--color-navy);
 		color: #fff;
 	}
-
 	.our-services .label {
 		color: #ff5757;
 	}
-
 	.services-grid {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 48px;
 		align-items: center;
 	}
-
 	.services-list {
 		list-style: none;
 		margin: 0;
@@ -62,14 +49,18 @@ const serviceItems = [
 		display: grid;
 		gap: 18px;
 	}
-
 	.services-list li {
 		display: flex;
 		align-items: center;
 		gap: 14px;
 		font-weight: 600;
 	}
-
+	.services-list a {
+		text-decoration: none;
+	}
+	.services-list a:hover {
+		text-decoration: underline;
+	}
 	.bullet {
 		width: 10px;
 		height: 10px;
@@ -77,7 +68,6 @@ const serviceItems = [
 		background: var(--color-red);
 		flex-shrink: 0;
 	}
-
 	@media (max-width: 800px) {
 		.services-grid {
 			grid-template-columns: 1fr;

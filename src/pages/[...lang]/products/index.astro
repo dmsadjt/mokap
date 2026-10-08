@@ -1,0 +1,56 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import ItemCard from '../../../components/ItemCard.astro';
+import { getProducts, matches } from '../../../lib/content';
+import { badLang } from '../../../lib/lang';
+import { getLangFromUrl, useTranslations, localizePath } from '../../../i18n/ui';
+
+if (badLang(Astro.params.lang)) return new Response(null, { status: 404 });
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const q = Astro.url.searchParams.get('q') ?? '';
+const products = getProducts().filter((p) => matches(p, q));
+---
+
+<Layout title={t('products.title')}>
+	<PageHeader title={t('products.title')} subtitle={t('products.subtitle')} />
+	<section>
+		<div class="container">
+			<form class="filters" method="get">
+				<input type="search" name="q" value={q} placeholder={t('products.search')} aria-label={t('common.search')} />
+				<button class="btn" type="submit">{t('common.search')}</button>
+			</form>
+			{products.length === 0 && <p>{t('products.noResults')}</p>}
+			<div class="grid">
+				{
+					products.map((p) => (
+						<ItemCard href={localizePath(`/products/${p.slug}`, lang)} title={p.name} text={p.summary} image={p.image} meta={p.price} />
+					))
+				}
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.filters {
+		display: flex;
+		gap: 12px;
+		flex-wrap: wrap;
+		margin-bottom: 32px;
+	}
+	.filters input {
+		flex: 1 1 240px;
+		font: inherit;
+		padding: 10px 12px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		gap: 24px;
+	}
+</style>

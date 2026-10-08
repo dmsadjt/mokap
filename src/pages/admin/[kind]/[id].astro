@@ -36,10 +36,8 @@ if (Astro.request.method === 'POST') {
 	parsed.errors.push(...uploadErrors);
 	errors = parsed.errors;
 	if (errors.length === 0) {
-		if (cfg.kind === 'projects' && !isNew) parsed.data.id = item.id;
 		const savedId = saveItem(cfg.kind, id, parsed.data);
 		staleUploads.forEach(deleteUpload);
-		if (cfg.kind === 'projects' && isNew) saveItem(cfg.kind, savedId, { ...parsed.data, id: savedId });
 		return Astro.redirect(`/admin/${cfg.kind}?saved=1`);
 	}
 	// re-render with what the user typed

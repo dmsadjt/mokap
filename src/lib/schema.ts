@@ -20,25 +20,36 @@ export interface KindConfig {
 const slugField: Field = { name: 'slug', label: 'Slug (URL)', type: 'text', required: true };
 
 export const kinds: Record<Kind, KindConfig> = {
-	projects: {
-		kind: 'projects',
-		label: 'Projects',
-		singular: 'Project',
+	articles: {
+		kind: 'articles',
+		label: 'Articles',
+		singular: 'Article',
 		titleField: 'title',
-		columns: ['projectId', 'title', 'customer', 'type', 'date'],
+		columns: ['title', 'category', 'author', 'date'],
 		fields: [
 			{ name: 'title', label: 'Title', type: 'text', required: true },
 			slugField,
-			{ name: 'projectId', label: 'Project ID', type: 'text' },
+			{ name: 'category', label: 'Category', type: 'text' },
+			{ name: 'author', label: 'Author', type: 'text' },
 			{ name: 'date', label: 'Date', type: 'date' },
-			{ name: 'customer', label: 'Customer', type: 'text' },
-			{ name: 'type', label: 'Type (e.g. STHE, ACHE)', type: 'text' },
-			{ name: 'equipmentName', label: 'Equipment name', type: 'text' },
-			{ name: 'scopeOfWork', label: 'Scope of work', type: 'text' },
-			{ name: 'weightKgs', label: 'Weight (kg)', type: 'text' },
-			{ name: 'yearBuilt', label: 'Year built', type: 'text' },
-			{ name: 'material', label: 'Material', type: 'text' },
-			{ name: 'codeStd', label: 'Code / standard', type: 'text' },
+			{ name: 'excerpt', label: 'Excerpt', type: 'textarea', required: true },
+			{ name: 'body', label: 'Body', type: 'textarea', help: 'Separate paragraphs with a blank line' },
+			{ name: 'image', label: 'Cover image', type: 'image' },
+		],
+	},
+	products: {
+		kind: 'products',
+		label: 'Products',
+		singular: 'Product',
+		titleField: 'name',
+		columns: ['name', 'slug', 'price'],
+		fields: [
+			{ name: 'name', label: 'Name', type: 'text', required: true },
+			slugField,
+			{ name: 'summary', label: 'Summary', type: 'textarea', required: true },
+			{ name: 'description', label: 'Description', type: 'textarea' },
+			{ name: 'price', label: 'Price', type: 'text', help: 'Free text, e.g. "From $99" or "Contact us"' },
+			{ name: 'features', label: 'Features', type: 'lines', help: 'One per line' },
 			{ name: 'image', label: 'Image', type: 'image' },
 		],
 	},
@@ -54,34 +65,23 @@ export const kinds: Record<Kind, KindConfig> = {
 			{ name: 'summary', label: 'Summary', type: 'textarea', required: true },
 			{ name: 'body', label: 'Body', type: 'textarea' },
 			{ name: 'bullets', label: 'Bullets', type: 'lines', help: 'One per line' },
-			{ name: 'caseStudies', label: 'Case studies (JSON)', type: 'json' },
-			{ name: 'brochures', label: 'Brochures (JSON)', type: 'json', help: '[{"label":"...","href":"..."}]' },
+			{ name: 'image', label: 'Image', type: 'image' },
 		],
 	},
-	solutions: {
-		kind: 'solutions',
-		label: 'Solutions',
-		singular: 'Solution',
+	certificates: {
+		kind: 'certificates',
+		label: 'Certificates',
+		singular: 'Certificate',
 		titleField: 'name',
-		columns: ['name', 'slug', 'summary'],
+		columns: ['name', 'issuer', 'issuedDate', 'expiryDate'],
 		fields: [
 			{ name: 'name', label: 'Name', type: 'text', required: true },
-			slugField,
-			{ name: 'summary', label: 'Summary', type: 'textarea', required: true },
+			{ name: 'issuer', label: 'Issued by', type: 'text' },
+			{ name: 'credentialId', label: 'Certificate / credential ID', type: 'text' },
+			{ name: 'issuedDate', label: 'Issued date', type: 'date' },
+			{ name: 'expiryDate', label: 'Expiry date', type: 'date', help: 'Leave empty if it does not expire' },
 			{ name: 'description', label: 'Description', type: 'textarea' },
-			{ name: 'products', label: 'Products', type: 'lines', help: 'One per line' },
-			{ name: 'caseStudies', label: 'Case studies (JSON)', type: 'json' },
-		],
-	},
-	clients: {
-		kind: 'clients',
-		label: 'Clients',
-		singular: 'Client',
-		titleField: 'name',
-		columns: ['name', 'logo'],
-		fields: [
-			{ name: 'name', label: 'Name', type: 'text', required: true },
-			{ name: 'logo', label: 'Logo', type: 'image' },
+			{ name: 'image', label: 'Certificate image', type: 'image' },
 		],
 	},
 };
@@ -106,8 +106,6 @@ export function parseForm(cfg: KindConfig, form: FormData): { data: Record<strin
 			}
 		} else data[f.name] = raw;
 	}
-	// project records expect every string field to be present
-	if (cfg.kind === 'projects') for (const f of cfg.fields) if (data[f.name] === undefined) data[f.name] = '';
 	return { data, errors };
 }
 

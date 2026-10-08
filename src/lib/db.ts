@@ -1,12 +1,12 @@
 import { DatabaseSync } from 'node:sqlite';
 import { mkdirSync } from 'node:fs';
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
-import { projects } from '../data/projects';
+import { articles } from '../data/articles';
+import { products } from '../data/products';
 import { services } from '../data/services';
-import { solutions } from '../data/solutions';
-import { clients } from '../data/clients';
+import { certificates } from '../data/certificates';
 
-export type Kind = 'projects' | 'services' | 'solutions' | 'clients';
+export type Kind = 'articles' | 'products' | 'services' | 'certificates';
 
 mkdirSync('data', { recursive: true });
 export const db = new DatabaseSync('data/app.db');
@@ -56,10 +56,10 @@ function seed(kind: Kind, rows: unknown[]) {
 	for (const r of rows) ins.run(kind, JSON.stringify(r));
 	db.exec('COMMIT');
 }
-seed('projects', projects);
+seed('articles', articles);
+seed('products', products);
 seed('services', services);
-seed('solutions', solutions);
-seed('clients', clients);
+seed('certificates', certificates);
 
 if (!(db.prepare('SELECT COUNT(*) c FROM users').get() as { c: number }).c) {
 	// Mockup-only default credentials.
@@ -68,7 +68,7 @@ if (!(db.prepare('SELECT COUNT(*) c FROM users').get() as { c: number }).c) {
 if (!(db.prepare('SELECT COUNT(*) c FROM messages').get() as { c: number }).c) {
 	db.prepare('INSERT INTO messages (name,email,phone,message) VALUES (?,?,?,?)').run(
 		'Budi Santoso', 'budi@example.com', '+62 812 0000 0000',
-		'Hello, we need a quotation for a replacement air cooler bundle. Please contact us.',
+		'Hello, could you send me a quotation for the Professional Package? Thank you.',
 	);
 }
 

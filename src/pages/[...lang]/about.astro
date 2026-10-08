@@ -1,10 +1,12 @@
 ---
 import { Image } from "astro:assets";
-import Layout from "../layouts/Layout.astro";
-import PageHeader from "../components/PageHeader.astro";
-import Icon from "../components/Icon.astro";
-import { getLangFromUrl, useTranslations } from "../i18n/ui";
+import Layout from "../../layouts/Layout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Icon from "../../components/Icon.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/ui";
 
+import { badLang } from "../../lib/lang";
+if (badLang(Astro.params.lang)) return new Response(null, { status: 404 });
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 

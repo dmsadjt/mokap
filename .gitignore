@@ -30,4 +30,4 @@ AGENTS.md
 .claude/
 
 # local mockup database
-data/
+/data/

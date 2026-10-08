@@ -1,0 +1,84 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { getCertificates } from '../../lib/content';
+import { badLang } from '../../lib/lang';
+import { getLangFromUrl, useTranslations } from '../../i18n/ui';
+
+if (badLang(Astro.params.lang)) return new Response(null, { status: 404 });
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const certificates = getCertificates();
+---
+
+<Layout title={t('certificates.title')}>
+	<PageHeader title={t('certificates.title')} subtitle={t('certificates.subtitle')} />
+	<section>
+		<div class="container">
+			{certificates.length === 0 && <p>{t('certificates.noResults')}</p>}
+			<div class="grid">
+				{
+					certificates.map((c) => (
+						<article class="cert">
+							{c.image && (
+								<a href={c.image} target="_blank" rel="noopener">
+									<img src={c.image} alt={c.name} loading="lazy" />
+								</a>
+							)}
+							<div class="info">
+								<h3>{c.name}</h3>
+								{c.description && <p>{c.description}</p>}
+								<dl>
+									{c.issuer && (<><dt>{t('certificates.issuedBy')}</dt><dd>{c.issuer}</dd></>)}
+									{c.credentialId && (<><dt>{t('certificates.id')}</dt><dd>{c.credentialId}</dd></>)}
+									{c.issuedDate && (<><dt>{t('certificates.issued')}</dt><dd>{c.issuedDate}</dd></>)}
+									{c.expiryDate && (<><dt>{t('certificates.expires')}</dt><dd>{c.expiryDate}</dd></>)}
+								</dl>
+							</div>
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 24px;
+	}
+	.cert {
+		border: 1px solid #e5e5e5;
+		border-radius: 4px;
+		overflow: hidden;
+		background: #fff;
+	}
+	.cert img {
+		width: 100%;
+		max-height: 280px;
+		object-fit: cover;
+		background: var(--color-bg-alt);
+	}
+	.info {
+		padding: 18px 20px 22px;
+	}
+	.info h3 {
+		color: var(--color-navy);
+		font-size: 1.1rem;
+	}
+	dl {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 4px 14px;
+		margin: 12px 0 0;
+		font-size: 0.9rem;
+	}
+	dt {
+		font-weight: 700;
+	}
+	dd {
+		margin: 0;
+	}
+</style>

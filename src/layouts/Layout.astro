@@ -11,7 +11,7 @@ interface Props {
 
 const {
 	title = site.name,
-	description = `${site.name} — process design, engineering, procurement, construction and maintenance of industrial equipment and systems.`,
+	description = site.description,
 } = Astro.props;
 
 const lang = Astro.currentLocale ?? defaultLang;

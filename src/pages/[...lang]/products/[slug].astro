@@ -1,0 +1,62 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import { getProducts } from '../../../lib/content';
+import { badLang } from '../../../lib/lang';
+import { getLangFromUrl, useTranslations, localizePath } from '../../../i18n/ui';
+
+if (badLang(Astro.params.lang)) return new Response(null, { status: 404 });
+const product = getProducts().find((p) => p.slug === Astro.params.slug);
+if (!product) return new Response(null, { status: 404 });
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title={product.name} description={product.summary}>
+	<PageHeader title={product.name} subtitle={product.summary} />
+	<section>
+		<div class="container detail">
+			<img src={product.image || '/placeholder.svg'} alt={product.name} />
+			<div>
+				{product.price && <p class="price"><strong>{t('products.price')}:</strong> {product.price}</p>}
+				{product.description && <p>{product.description}</p>}
+				{
+					product.features?.length > 0 && (
+						<>
+							<h3>{t('products.features')}</h3>
+							<ul>{product.features.map((f) => <li>{f}</li>)}</ul>
+						</>
+					)
+				}
+				<a class="btn" href={localizePath('/contact', lang)}>{t('products.enquire')}</a>
+				<p><a class="back" href={localizePath('/products', lang)}>{t('common.back')}</a></p>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.detail {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 48px;
+		align-items: start;
+	}
+	.detail img {
+		width: 100%;
+		border-radius: 4px;
+	}
+	.price {
+		font-size: 1.2rem;
+	}
+	.back {
+		color: var(--color-red);
+		font-weight: 700;
+		text-decoration: none;
+	}
+	@media (max-width: 800px) {
+		.detail {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
